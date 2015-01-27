@@ -1,2 +1,3 @@
-# doc.getwox.com
-http://doc.getwox.com
+Please help to improve Wox documentation
+======
+
