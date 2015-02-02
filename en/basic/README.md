@@ -1,153 +1,204 @@
-Before written Wox, I always wanted to write a launcher. I like to using hotkeys instead of keyboards, especially after using Vim. `Win + R` inside Windows cannot search programs, not good for me. I also used [Launchy](http://www.Launchy.NET/), but it seems stopped maintanence for a long time. Back to 2011, I tried to using C-lang to make some attempts, like [fstart](https://code.Google.com/p/fstart/) and [smartrun](https://code.Google.com/p/smartrun/). Maybe I'm a new guy to coding at that time, those attempts failed at the end. Probably in November 2013, I know [Alfred](http://www.alfredapp.com/), an awesome launcher in Mac. Unfortunately, there is no such thing under Windows :(
+# Why make Wox?
 
-  So, naturally, I came up an idea that making a launcher like Alfred, even the name initially was made as  WinAlfred. I made a [post](http://v2ex.com/t/93922) on V2ex, which has some of the affirmative, later some people get involved in the project. In the middle of the developing Wox, I was warned by Alfred. Because the WinAlfred name contains Alfred, and cannot be used because that's their trademark. Finally, Wox come.
+I always wanted to write a keyboard based launcher. I use hotkeys as often as possible, especially after I got used to the unix programmers editor [Vim](http://www.vim.org). I frequently used the `Win + R` shortcut to launch the Windows "Run" command, but "Run" doesn't have built in search or any other useful functions. The Windows 8 and Windows 10 `Win+S` "Search" menu are an improvement, but "Search" still isn't a fast, flexiable, reliable keyboard launcher. For a while I was using [Launchy](http://www.Launchy.net/), but updates are ever less frequent and it looks like it's becoming abandonware.
 
-  # Introduction
+Back to 2011, I tried using `C` to write [fstart](https://code.Google.com/p/fstart/) and then [smartrun](https://code.Google.com/p/smartrun/) but I wasn't experienced enough in developing with `C` or perhaps `C++` just wasn't the right tool for me. Neither of these launcher projects really took off.
+
+Then, toward the end of 2013, I came across an excellent Mac launcher called  [Alfred](http://www.alfredapp.com/), and thought "how unfortunate that this doesn't exist yet for Windows".
+
+Naturally, I thought I should develop something for Windows similar to Alfred, initially I even wanted to name it *WinAlfred* and [posted on V2ex](http://v2ex.com/t/93922) about it. My post and initial code generated enough excitement to get the project moving, but that same excitement concerned the authors of Alfred about possible confusion over their existing trademark, so I decided to rename it "Wox".
+
+# Introduction
   -----------------------------
-  Wox is a launcher. You can use to search local programs, files. It can also search web content by using plugins, such as how is the weather today, what's the score of xxx movie and so on.
+Wox lets you keep your hands on the **keyboard**. You can use Wox to:
+* **Launch applications** and files without lifting your fingertips off the keyboard
+* **Quick Search the Web** with Google, Wikipedia, or your own custom searches
+* Use the **built in Calculator** and built in DOS/Cygwin **shell command launcher**
+* Use **plugins** for Power Management, Clipboard History, Browser Bookmarks, Filezilla, Password Generator, Spotify, Language Translation and even search *Everything*
+* For **developers**, we also have plugins for Dash Docs, Shadowsocks, Putty or Kitty, Pidgin, caniuse,  Hosts File Editor or you can develop your own plugins with `JSON`, `C#` or `Python`
 
-  Wox is open sourced at: [http://www.github.com/qianlifeng/wox](http://www.github.com/qianlifeng/wox), any pull requests and issues are appreciate.
-
-  # System Plugin
-  ----------------------------------
-  Wox plugin system is divided into two parts, the system plugins and user plugins. System plugin generally does not require keywords (except Web Search plugin) and user can't uninstall those system plugins now, they all built-in plugins. User plugin requires a action keyword. For example, I want to use the [youdao translator](https://github.com/qianlifeng/Wox.Plugin.Youdao) plugin, then you need to use the `yd` + space + words. The action keyword can be configured, and I will introduce how to use shortcuts to simplify this process in the following sections.
+Wox is open source, you can contribute via
+[github](http://www.github.com/qianlifeng/wox)
 
 
-  * ** Program Plugin**
+# Wox Settings
 
-  ![](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtwot5lmj20m807maas.jpg)
+You can accesss the Wox settings by simply activating Wox and typing `Settings`.
 
-  Program plugin is so important that I need to introduced first. It's the basic feature of Wox.
+![](http://api.drp.io/files/54ceea25620af.png)
 
-  List of Wox search item has its own weight. Each time you select an item, the weight increases. So when user search this item next time, it will be displayed at the top of the list.
+Alternatively, you can right click on the Wox tray icon and choose settings.
 
-  ![](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrx1jpdrij20m807m0tg.jpg)
 
-  Search list of Wox programs is mainly obtained from the two places.
-  1. Programs in the start menu.
+# System Plugin
+---------------
 
-  Wox automatically collects start menu programs.
+Internally, all Wox searches are handled via plugins, the built in system plugin and optional user plugins. System plugins don't need to be installed or uninstalled, they are part of Wox. With the exception of Web Searches, system plugins do not require an `Action Keyword` keyboard shortcut to activate.
 
-  2. User-defined locations.
+User plugins, such as [Clipboard History](https://www.getwox.com/plugin/4) requires an `Action Keyword`, so you would type `cb` + space + *search terms* to search your clipboard history.
 
-  If users need to index program that doesn't exist on the start menu, Wox also provides a way for users spcifiy those locations. Just open setting dialog, and in the 'Setting=>Plugin=>Programs':
 
-  ![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrwuw8m25j20m80go76k.jpg)
+## Program Launcher (System Plugin)
 
-  Except the program location, users can also specify file types to index. By default, Wox will index files ends with `lnk;exe;bat`.
+![](http://api.drp.io/files/54ceeb5e30338.png)
 
-  * ** Color plugin **
+The program launcher is the most basic feature of Wox. Each item Wox finds that matches your search has it's own search relevancy weight. Each time you select an item, the weight increases for the active search term. This way, Wox gets to know what you like to search for and results will get more relevant over time. Your favorites will be displayed at the top of the list.
 
-  ![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx7z54j7j20m803gq2y.jpg)
+*Note for Chinese Language Use, Wox will automatically use romanized Chinese (pinyin) or actual chinese characters for search as in the image below.*
 
-  When user input value that matches a specific condition, Wox will tell you what the color is.
+![](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrx1jpdrij20m807m0tg.jpg)
 
-  * ** Control Panel plugin **
+Wox automatically searches for any programs with shortcuts in the `Start Menu`. Under the `Wox Settings` > `Plugin` > `Programs` tab you can also add your own list of folders to search.
 
-  ![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx9znjv9j20m803g3ym.jpg)
+![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrwuw8m25j20m80go76k.jpg)
 
-  Wox also supports search in Control Panel. For example, after entering the firewall, Wox searches out the firewall option in the control panel.
+By default Wox "Programs" search will find: .exe files, .bat (batch files) .lnk (windows shortcuts), and .appref-ms (windows application reference files from ClickOnce manifests)
 
-  * ** Calculator plugin **
+## Control Panel (System Plugin)
 
-  ![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxc7incnj20m803gglq.jpg)
+![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx9znjv9j20m803g3ym.jpg)
 
-  Wox built-in powerful calculation plugin. Search formulas that you want to calculate in the Wox, and you are  able to get the results right away.
+In addition to programs, Wox also searches for Control Panel Applets. For example, type `users` to open the "User Accounts" page of the Control Panel or type `pro fea` to open the "Programs and Features" Control Panel page that lets you uninstall any previously installed program. Don't forget to try `present` to open Windows excellent "Presentation Settings" tool.
 
-  * ** URL plugin **
+## Folder (System Plugin)
 
-  ![](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrxeradmpj20m803ggln.jpg)
+![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxk3oir4j20m803g74c.jpg)
 
-  When you copy a website url and want to open this URL, you can open the Wox, paste, enter.  
+If there are folders you frequently open such as your Home folder or your Dropbox folder, just add them to the list here and you can directly open that folder or even browse the contents of it from inside Wox.
 
-  * **Web search plugin**
+## Calculator (System Plugin)
 
-  ![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxsgt1drj20m80aegm7.jpg)
+![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxc7incnj20m803gglq.jpg)
 
-  Wox also offers a system called Web search plugin. So-called Web searches allows users to set a URL, Wox will then replace the searched keywords when user make a search. This is usually used in Google, Youtube search. Google is a build-in web search. Action keyword is 'g'. When you make a new web search, please remeber to replace the query to `{q}` as the placeholder, this placeholder will be replaced in the real search.
+Wox includes a very powerful calculator based on the internal `Python` math libraries. Even complex equations are quickly handeld by Wox, and the result copied to the clipboard.
 
-  ![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxwxd0xwj20m80goq5o.jpg)
+## URL (System Plugin)
 
-  In Web search, Wox also provides search suggestions feature, as indicated in the figure. Suggest sources to select Google or Baidu.
+![](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrxeradmpj20m803ggln.jpg)
 
-  * ** Commandline plugin **
+When wox detects something that looks like it could be a URL (*something.com*) you'll see the Open URL option in Wox. Note that you can also paste URL's directly into Wox and open them more quickly than by activating your browser and pasting into the address bar.
 
-  ![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrtig5gbyj20m8090wez.jpg)
+## Web Search (System Plugin)
 
-  Wox offers an alternative `win+r`, if you enable it, it will replace the default `win+r`. This plugin provides some additional benefits when compared to the original's:
-    1. the interface is more intuitive, searching is more convenient.  
-      `iisreset` in this case, it will not get any prompt if your running it in  traditional `win+r` search interface. But you can get 'iisreset' the hints in the Wox, if you have run this command before.
-    2. the 5 commands that you use frequently will be displayed directly in the interface
+![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxsgt1drj20m80aegm7.jpg)
 
-  * ** Folder plugin **
+Web search plugins are like the "Other Search Engines" feature of Chrome, "Search Providers" feature of Internet Explorer, or the "Manager Search Engine List" feature of Firefox.
 
-  ![](http://ww4.sinaimg.cn/large/5d7c1fa4jw1elrxk3oir4j20m803g74c.jpg)
+The default web search is Google, activated with the `g` Action Keyword. You can create your own shortcuts for the search feature on any website that uses GET type requests. Just replace the serch query term with `{q}` so that Wox knows where to insert your custom queries. For example, to add your own `w` search for Wikipedia, inside the wikipedia.org search box type "wox". You'll see the following URL on the address bar:
 
-  Wox provides folder bookmarks function. If you frequently need to access folders, then you can add it to the list of folders. Directly after the search folder name you can quickly open the folder. Add settings at: 'Settings=>Plugin=>Folder'.
+```
+http://en.wikipedia.org/wiki/Special:Search?search=wox&go=Go
+```
 
-  * ** System commands plugin **
+Just replace the "wox" portion, so your custom Wikipedia search URL would be:
 
-  ![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxgqz5n1j20m803gaa4.jpg)
+```
+http://en.wikipedia.org/wiki/Special:Search?search={q}&go=Go
+```
 
-  Wox integrated some system-level commands. For example, log off, shutdown, lock, and so on. Specific support matrices can be viewed from the 'Settings=>Plugin=>System Command'.
+![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxwxd0xwj20m80goq5o.jpg)
 
-  * ** user plugins indicator **
 
-  ![](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtg0ec9kj20m8068jrk.jpg)
+## Shell (System Plugin)
 
-  As shown in the image above, this plug-in is used to prompt user plugin trigger keyword.
+![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrtig5gbyj20m8090wez.jpg)
 
-  # User plugins
+
+Wox offers a replacement for the Windows "Run" `win+r` Dialog. Since the core of Wox is fast search, you don't have to worry about perfectly memorizing the name of each command you need to run. For example, type `win+r` and then `reset` and you'll see both IISreset (reset Windows built in web server) or Vista's session reset. If you chose "iisreset", you wouldn't get an annoying dos box window popping up, IIS reset would just execute the command required and exit in the background.
+
+The top five commands that you run via Wox's `win+r` will be displayed in the last as soon as you launch it.
+
+## System commands (System Plugin)
+
+![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrxgqz5n1j20m803gaa4.jpg)
+
+Optional shortcuts for:
+
+* Shutdown the computer
+* Log off the current user
+* Lock the screen
+* Exit Wox
+* Restart Wox
+* Wox Settings
+
+
+## Color (System Plugin)
+
+![](http://ww1.sinaimg.cn/large/5d7c1fa4jw1elrx7z54j7j20m803gq2y.jpg)
+
+Input an HTML/hex color code and Wox will visually display that color value.
+
+## User Plugins Icon
+
+![](http://ww2.sinaimg.cn/large/5d7c1fa4jw1elrtg0ec9kj20m8068jrk.jpg)
+
+Note the paintbrush icon in the screenshot above. If you choose to activate any of these User Plugin choices, then the corresponding plugin will be executed.
+
+
+# User plugins
   ----------------------------
 
-  In addition to built-in system plugins, Wox also provides platform for creators to share their plugins. [http://www.getwox.com/plugin] (http://www.getwox.com/plugin)
+## Wox Package Manager (wpm)
 
-  At present, the Wox supports plugin written by (but not limited) to 'C#' and 'Python', users can even use 'C','Ruby','Nodejs','Go' languages to write Wox plugin. If you want to know how to write Wox plugin, you can go to [here] (/en/plugin/create_plugin.html) in the Guide.
+User plugins are installed via the `wpm install` command inside Wox. Most users will want to install the plugins for Clipboard History, Browser Bookmarks, Password Generation, and *Search Everything*. The full list of plugins is always available at [getwox.com/plugin](http://www.getwox.com/plugin)
 
-  # Theme
+Most developers will also want to install the plugins for Dash Docs, Shadowsocks, Putty or Kitty, Pidgin, caniuse, and the Hosts File Editor or even develop [your own plugins](/en/plugin/create_plugin.html) with `C#` or `Python`.
+
+To install the Clipboard History plugin, activate Wox and enter `wpm install clip`, and then choose "Clipboard History" Once installed copy and paste a few items on your clipboard, and then activate Wox and type `cb` and you'll see a list of all the items in your recent history. Of course this is Wox, so the list is searchable.
+
+To install the Browser Bookmarks plugin, just enter `wpm install bookmark`. Wox will find "Browser Bookmarks", click `enter` and then you'll be asked to confirm your choice.
+
+To install the "Search Everything" plugin, just enter `wpm install every` and you'll see the "Everything" plugin.
+
+To see which plugins you've already installed, just type `wpm list` and you'll see each plugin with it's Action Keyword listed at the end.
+
+
+# Themes
   -----------------------------
 
-  ![](http://api.drp.io/files/544a461139f56.png)
+![](http://api.drp.io/files/544a461139f56.png)
 
-  Wox supports themes. You can choose your favorite theme.
+Wox ships with four themes by default: Dark, Light, Metro Server and Pink.
 
-  In addition, we also offer an online theme maker [ThemeBuilder](http://www.getwox.com/theme/Builder). Once theme is configured on the Web site, click on download, and rename it as following format: `<your theme name>.xaml`. You can then put this theme file in Theme directory in the root of Wox directory and restart the Wox. After restart Wox, user can see new theme in the theme list.
+If you want to build your own theme you can use the Wox online theme builder at [getwox.com/theme/builder](https://www.getwox.com/theme/builder). Make sure to save your file under the Wox root directory and save it with the `.xaml` file extension so that Wox recognizes it as a theme. Note that to activate the theme, you'll need to restart Wox, and then you'll see your new theme as a choice under the `Settings` > `Themes` menu.
 
-  # Hotkey
+# Hotkeys
   -------------------------------------
 
-  ![](http://api.drp.io/files/544a4878cbb40.png)
+![](http://api.drp.io/files/544a4878cbb40.png)
 
-  As a keyboard lover, powerful hotkey support is essential. In the Wox, hotkeys are divided into two categories. The first one is those hotkeys have been defined, and cannot be changed by the user, such as 'Ctrl + R' mentioned above. The others is those user can customize, which I will describe below.
+The global "activate wox" hotkey is `alt + space` by default, but you may want to change this to `ctrl + space` or something else to avoid interfering with the default Windows Restore/Move/Size/Close window menu.
 
-  As shown in the image above, custom hotkeys divided into two parts.
-    1. first one is the hotkey that launch Wox. Wox default primary hot key is 'Alt + space '. If you want to change this setting, you can place the cursor in hotkey input box, and then type a shortcut key.
-    2. the second one is the hotkey settings for queries. For example, I often use the youdao translation plugin, so I added a hotkey `alt+t` and map it to `yd `, as shown in the following figure:
+You can also define a hotkey that pre-enters defined text into Wox, such as a hotkey for `alt + g` to activate the `g` built in Google Web Search.
 
-  ![](http://api.drp.io/files/544a4b2c392df.png)
+In the example below, we've created a hotkey `alt+t` for "translate" and mapped it to `yd ` (note the extra space at the end of the hotkey) to activate the youdao online English/Chinese translation tool.
 
-  ![](http://api.drp.io/files/544a4bed8e627.png)
+![](http://api.drp.io/files/544a4b2c392df.png)
 
-  After you add the hotkey succesfully. you can use `Alt + t` hotkey, Wox will be activated and enter the `yd `, you only need to input word to be translated immediately. **Note that when set hotkeys keywords, you need to insert an extra space at the end of the action keyword**, because Wox default use `key + space` as trigger.
+![](http://api.drp.io/files/544a4bed8e627.png)
 
-  Another very handy custom hotkeys is [Clipboard plugin](https://github.com/qianlifeng/Wox.Plugin.ClipboardManager), I mapped it to `Ctrl + Shift + v`.
+Once you install the [Clipboard plugin](https://github.com/qianlifeng/Wox.Plugin.ClipboardManager), we suggest mapping the `Ctrl + Shift + v` to `cb ` so that you can quickly search through recent clipboard history and decide what to paste.
 
-  # Proxy
-  ------------------------------------
-
-  ![](http://api.drp.io/files/544a4243dc812.png)
-
-  In the settings window, users can set HTTP proxy for Wox. This feature may be necessary for some business users because their networks are connected through a proxy.
-
-  If the proxy is set, then the 'wpm' commands and all system plugins will use this proxy. Note: If user plugin author did not take proxy information into account, then this user plugin is not support proxy. So, we recommend plugin author always consider proxy when you making your plugin.
-
-  # Context menu
+# Context menu
   -------------------------------------
 
-  ![](http://api.drp.io/files/544a2c5b85f45.png)
+![](http://api.drp.io/files/544a2c5b85f45.png)
 
-  From [V1.1.0](https://github.com/qianlifeng/Wox/milestones/V1.1.0), Wox supports context menu function. If you can see a small icon on the right of search item, that means this item has context menus. In this case, you simply use the `Shift + enter` to enter the menu options. If you want to return to the search interface, just press `Esc`.
+If you see this small "menu" icon on the right edge of an item in Wox, there is a context menu associated with that menu item. You can use `shift + enter` to see the menu options or `Esc` to exit from those options and return to the main search interface.
 
-  ![](http://api.drp.io/files/544a2d1e2758a.png)
+![](http://api.drp.io/files/544a2d1e2758a.png)
 
-  Menu item provide some optional actions to this search item. For example, opens the file with administrator privileges or open the directory that contains the file and so on.
+The context menu item provides optional actions, for example opens the file with administrator privileges or open the directory that contains the file.
+
+
+# Proxy
+------------------------------------
+
+![](http://api.drp.io/files/544a4243dc812.png)
+
+In the settings window, users can set HTTP proxy for Wox. This feature may be necessary for some business users if their networks are connected through a proxy.
+
+If the proxy is set, then the 'wpm' commands and all system plugins will use this proxy.
+
+Note: If user plugin author did not take proxy information into account, then this user plugin is not support proxy. So, we recommend plugin authors always consider proxy settings when making your plugin.
+

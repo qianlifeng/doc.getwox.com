@@ -1,7 +1,7 @@
 When creating Wox, users must create a 'plugin.json' file in the root of plugin folder. This file contains some basic information about the plugin. When user upload plugin to [getwox.com](http://www.getwox.com),
 We will read the information in that file.
 
-The format of `plugin.json` file：  
+The format of `plugin.json` file：
 **Please remove the comments and replace related infos when you copy following config**
 ```
 {

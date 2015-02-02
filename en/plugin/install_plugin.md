@@ -6,7 +6,7 @@ Wox currently supports two ways to install plugins.
   2. remove the plug-in: `wpm uninstall <plug-in name>`
   3. the installed plugins: `wpm list`
 
-* Download Wox plugin packages, installing manually.  
+* Download Wox plugin packages, installing manually.
 
   If for some reason, user cannot use the `WPM` to install plugins.
   Users may  download the plugin package to a local (ending with wox), and then drag the plugin package to Wox search box.
