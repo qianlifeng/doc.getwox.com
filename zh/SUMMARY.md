@@ -14,3 +14,5 @@ Wox 文档
     * [禁用插件](plugin/disable_plugin.md)  
 * [主题](theme/README.md)
     * [安装主题](theme/install_theme.md)
+* [更新历史](history/README.md)
+    * [V1.2.0](history/v1.2.0.md)
